@@ -1,5 +1,5 @@
-import {Loader} from 'react-loader-spinner'
 import {Component} from 'react'
+import Loader from 'react-loader-spinner'
 import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
 
@@ -9,6 +9,7 @@ import ThemeContext from '../../context/ThemeContext'
 import Header from '../Header'
 import SideBar from '../SideBar'
 import BannerSection from '../BannerSection'
+import FailureView from '../FailureView'
 
 import {
   HomeBgContainer,
@@ -80,27 +81,29 @@ class Home extends Component {
     this.setState({searchInput: event.target.value})
   }
 
+  onRetry = () => this.getVideoList()
+
   renderLoadingView = () => (
     <div className="loader-container" data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
   )
 
-  renderFailureView = () => <p>FailureView</p>
+  renderFailureView = () => <FailureView onRetry={this.onRetry} />
 
   renderSuccessView = () => {
     const {videoList} = this.state
     // console.log(videoList)
     return (
-      <ul>
-        {videoList.map(each => (
-          <li>{each.title}</li>
-        ))}
-      </ul>
+      <div>
+        {videoList.length === 0
+          ? this.renderNoResultsView()
+          : this.renderVideosListView()}
+      </div>
     )
   }
 
-  renderVideosList = () => {
+  renderList = () => {
     const {apiStatus} = this.state
     console.log('rendering view')
 
@@ -152,7 +155,7 @@ class Home extends Component {
                         <AiOutlineSearch size={20} />
                       </SearchButton>
                     </SearchContainer>
-                    <div>{this.renderVideosList}</div>
+                    {this.renderList}
                   </VideosContainer>
                 </ListContainer>
               </VideosListContainer>

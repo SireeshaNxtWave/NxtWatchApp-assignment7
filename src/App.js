@@ -1,9 +1,12 @@
+import {Switch} from 'react-router-dom'
 import {Component} from 'react'
-import {Switch, Route} from 'react-router-dom'
 
 import Login from './components/Login'
 import Home from './components/Home'
 import ProtectedRoute from './components/ProtectedRoute'
+import Gaming from './components/Gaming'
+import Trending from './components/Trending'
+import SavedVideos from './components/SavedVideos'
 
 import ThemeContext from './context/ThemeContext'
 
@@ -48,8 +51,11 @@ class App extends Component {
         }}
       >
         <Switch>
-          <Route path="/login" component={Login} />
+          <ProtectedRoute path="/login" component={Login} />
           <ProtectedRoute exact path="/" component={Home} />
+          <ProtectedRoute path="/trending" component={Trending} />
+          <ProtectedRoute path="/gaming" component={Gaming} />
+          <ProtectedRoute path="/saved-videos" component={SavedVideos} />
         </Switch>
       </ThemeContext.Provider>
     )
