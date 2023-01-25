@@ -5,6 +5,7 @@ export const FailureViewBgContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: 'roboto';
 `
 export const Img = styled.img`
   height: 400px;

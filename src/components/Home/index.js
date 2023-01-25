@@ -10,6 +10,7 @@ import Header from '../Header'
 import SideBar from '../SideBar'
 import BannerSection from '../BannerSection'
 import FailureView from '../FailureView'
+import VideoItem from '../VideoItem'
 
 import {
   HomeBgContainer,
@@ -20,6 +21,12 @@ import {
   SearchContainer,
   InputEl,
   SearchButton,
+  NoResultsContainer,
+  NoResultsImg,
+  NoResultsHeading,
+  Des,
+  RetryButton,
+  UnorderedListContainer,
 } from './styledComponents'
 
 const apiStatusConstants = {
@@ -78,51 +85,12 @@ class Home extends Component {
   }
 
   onChangeSearchInput = event => {
-    this.setState({searchInput: event.target.value})
-  }
-
-  onRetry = () => this.getVideoList()
-
-  renderLoadingView = () => (
-    <div className="loader-container" data-testid="loader">
-      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
-    </div>
-  )
-
-  renderFailureView = () => <FailureView onRetry={this.onRetry} />
-
-  renderSuccessView = () => {
-    const {videoList} = this.state
-    // console.log(videoList)
-    return (
-      <div>
-        {videoList.length === 0
-          ? this.renderNoResultsView()
-          : this.renderVideosListView()}
-      </div>
-    )
-  }
-
-  renderList = () => {
-    const {apiStatus} = this.state
-    console.log('rendering view')
-
-    switch (apiStatus) {
-      case apiStatusConstants.success:
-        return this.renderSuccessView()
-      case apiStatusConstants.failure:
-        return this.renderFailureView()
-      case apiStatusConstants.inProgress:
-        return this.renderLoadingView()
-
-      default:
-        return null
-    }
+    this.setState({searchInput: event.target.value}, () => this.getVideoList())
   }
 
   render() {
-    const {searchInput} = this.state
-    console.log('render')
+    const {searchInput, videoList} = this.state
+    //  console.log('render')
 
     const jwtToken = Cookies.get('jwt_token')
     if (jwtToken === undefined) {
@@ -133,6 +101,67 @@ class Home extends Component {
       <ThemeContext.Consumer>
         {value => {
           const {activeTheme} = value
+
+          const onRetry = () => {
+            this.setState({searchInput: ''}, () => this.getVideoList())
+          }
+
+          const renderLoadingView = () => (
+            <div className="loader-container" data-testid="loader">
+              <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+            </div>
+          )
+
+          const renderNoResultsView = () => (
+            <NoResultsContainer>
+              <NoResultsImg
+                alt="no videos"
+                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
+              />
+              <NoResultsHeading mode={activeTheme}>
+                No Search results found
+              </NoResultsHeading>
+              <Des>Try different key words or remove search filter</Des>
+              <RetryButton type="button" onClick={onRetry}>
+                Retry
+              </RetryButton>
+            </NoResultsContainer>
+          )
+
+          const renderVideoListView = () => (
+            <UnorderedListContainer>
+              {videoList.map(each => (
+                <VideoItem key={each.id} details={each} theme={activeTheme} />
+              ))}
+            </UnorderedListContainer>
+          )
+
+          const renderFailureView = () => <FailureView onRetry={onRetry} />
+
+          const renderSuccessView = () => (
+            <div>
+              {videoList.length === 0
+                ? renderNoResultsView()
+                : renderVideoListView()}
+            </div>
+          )
+
+          const renderList = () => {
+            const {apiStatus} = this.state
+            // console.log('rendering view')
+
+            switch (apiStatus) {
+              case apiStatusConstants.success:
+                return renderSuccessView()
+              case apiStatusConstants.failure:
+                return renderFailureView()
+              case apiStatusConstants.inProgress:
+                return renderLoadingView()
+
+              default:
+                return null
+            }
+          }
 
           return (
             <HomeBgContainer mode={activeTheme} data-testid="Home">
@@ -151,11 +180,15 @@ class Home extends Component {
                         value={searchInput}
                         onChange={this.onChangeSearchInput}
                       />
-                      <SearchButton type="button" data-testid="searchButton">
+                      <SearchButton
+                        type="button"
+                        data-testid="searchButton"
+                        onClick={this.onChangeSearchInput}
+                      >
                         <AiOutlineSearch size={20} />
                       </SearchButton>
                     </SearchContainer>
-                    {this.renderList}
+                    {renderList()}
                   </VideosContainer>
                 </ListContainer>
               </VideosListContainer>

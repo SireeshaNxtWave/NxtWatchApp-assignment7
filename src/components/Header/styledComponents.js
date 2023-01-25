@@ -6,6 +6,7 @@ export const NavBar = styled.nav`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+  font-family: 'roboto';
 `
 export const LogoImg = styled.img`
   width: 150px;
@@ -45,6 +46,11 @@ export const LogoutButton = styled.button`
   color: #3b82f6;
   border: 1px solid #3b82f6;
   @media screen and (max-width: 767px) {
+    border: 0px;
+  }
+`
+export const LogoutText = styled.span`
+  @media screen and (max-width: 767px) {
     display: none;
   }
 `
@@ -55,4 +61,32 @@ export const LogoutIcon = styled.button`
   @media screen and (min-width: 768px) {
     display: none;
   }
+`
+export const PopupCard = styled.div`
+  background-color: ${props =>
+    props.mode === 'light' ? '#f9f9f9' : '#181818'};
+  border-radius: 10px;
+  padding: 20px;
+`
+export const Description = styled.p`
+  color: ${props => (props.mode === 'light' ? '#212121' : '#ffffff')};
+  font-size: 16px;
+`
+export const CancelButton = styled.button`
+  width: 80px;
+  height: 30px;
+  color: #909090;
+  border-radius: 8px;
+  border: 1px solid #909090;
+  margin: 15px;
+  background-color: transparent;
+`
+export const ConfirmButton = styled.button`
+  background-color: #3b82f6;
+  border-radius: 8px;
+  width: 80px;
+  height: 30px;
+  color: #ffffff;
+  border: 0px;
+  margin: 15px;
 `

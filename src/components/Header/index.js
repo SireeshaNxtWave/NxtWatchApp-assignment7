@@ -4,6 +4,8 @@ import {GiHamburgerMenu} from 'react-icons/gi'
 import {FiLogOut} from 'react-icons/fi'
 import Cookies from 'js-cookie'
 
+import Popup from 'reactjs-popup'
+
 import ThemeContext from '../../context/ThemeContext'
 
 import {
@@ -16,6 +18,11 @@ import {
   MenuButton,
   LogoutButton,
   LogoutIcon,
+  PopupCard,
+  Description,
+  CancelButton,
+  ConfirmButton,
+  LogoutText,
 } from './styledComponents'
 
 const Header = props => (
@@ -31,23 +38,20 @@ const Header = props => (
       const onClickLogout = () => {
         const {history} = props
         Cookies.remove('jwt_token')
-        history.replace('/')
+        history.replace('/login')
       }
 
       return (
         <NavBar>
           <Link to="/">
-            {activeTheme === 'light' ? (
-              <LogoImg
-                atl="website logo"
-                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-              />
-            ) : (
-              <LogoImg
-                alt="website logo"
-                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png"
-              />
-            )}
+            <LogoImg
+              atl="website logo"
+              src={
+                activeTheme === 'light'
+                  ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+                  : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+              }
+            />
           </Link>
           <UnorderedList>
             <ListItem>
@@ -76,10 +80,31 @@ const Header = props => (
               </MenuButton>
             </ListItem>
             <ListItem>
-              <LogoutButton onClick={onClickLogout}>Logout</LogoutButton>
-              <LogoutIcon mode={activeTheme} onClick={onClickLogout}>
-                <FiLogOut size={35} />
-              </LogoutIcon>
+              <Popup
+                modal
+                trigger={
+                  <LogoutButton type="button">
+                    <LogoutText>Logout</LogoutText>
+                    <LogoutIcon mode={activeTheme}>
+                      <FiLogOut size={35} />
+                    </LogoutIcon>
+                  </LogoutButton>
+                }
+              >
+                {close => (
+                  <PopupCard mode={activeTheme}>
+                    <Description mode={activeTheme}>
+                      Are you sure, you want to logout
+                    </Description>
+                    <CancelButton type="button" onClick={() => close()}>
+                      Cancel
+                    </CancelButton>
+                    <ConfirmButton type="button" onClick={onClickLogout}>
+                      Confirm
+                    </ConfirmButton>
+                  </PopupCard>
+                )}
+              </Popup>
             </ListItem>
           </UnorderedList>
         </NavBar>

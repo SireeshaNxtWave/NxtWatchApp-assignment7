@@ -4,7 +4,7 @@ export const UnorderedList = styled.ul`
   width: 100%;
 `
 export const ListItem = styled.li`
-  font-size: 17px;
+  font-size: 13px;
   list-style: none;
   color: ${props => (props.mode === 'light' ? '#212121' : '#ebebeb')};
 `
@@ -13,7 +13,7 @@ export const FooterContainer = styled.div`
   flex-direction: column;
   margin-left: 20px;
 `
-export const Heading = styled.h1`
+export const Heading = styled.p`
   color: ${props => (props.mode === 'light' ? '#212121' : '#ebebeb')};
   font-size: 23px;
 `

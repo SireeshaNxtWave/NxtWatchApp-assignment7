@@ -29,10 +29,13 @@ const FailureView = props => {
               }
             />
             <FailureViewHeading mode={activeTheme}>
-              Oops!Something Went Wrong
+              Oops! Something Went Wrong
             </FailureViewHeading>
-            <Para>We are having some trouble to complete your request.</Para>
-            <Para>Please Try Again.</Para>
+            <Para>
+              We are having some trouble to complete your request. Please try
+              again.
+            </Para>
+
             <RetryButton type="button" onClick={onClickRetry}>
               Retry
             </RetryButton>

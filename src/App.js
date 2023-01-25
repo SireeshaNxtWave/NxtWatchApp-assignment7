@@ -1,4 +1,4 @@
-import {Switch} from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 import {Component} from 'react'
 
 import Login from './components/Login'
@@ -6,7 +6,9 @@ import Home from './components/Home'
 import ProtectedRoute from './components/ProtectedRoute'
 import Gaming from './components/Gaming'
 import Trending from './components/Trending'
+import VideoItemDetails from './components/VideoItemDetails'
 import SavedVideos from './components/SavedVideos'
+import NotFound from './components/NotFound'
 
 import ThemeContext from './context/ThemeContext'
 
@@ -51,11 +53,13 @@ class App extends Component {
         }}
       >
         <Switch>
-          <ProtectedRoute path="/login" component={Login} />
+          <Route path="/login" component={Login} />
           <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute path="/trending" component={Trending} />
           <ProtectedRoute path="/gaming" component={Gaming} />
+          <ProtectedRoute path="/videos/:id" component={VideoItemDetails} />
           <ProtectedRoute path="/saved-videos" component={SavedVideos} />
+          <Route component={NotFound} />
         </Switch>
       </ThemeContext.Provider>
     )

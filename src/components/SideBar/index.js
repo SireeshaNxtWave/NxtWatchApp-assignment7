@@ -63,9 +63,7 @@ const SideBar = () => (
               />
             </LogoContainer>
             <Description mode={activeTheme}>
-              Enjoy!Now to see your <br />
-              channels and <br />
-              recommendations!
+              Enjoy! Now to see your channels and recommendations!
             </Description>
           </FooterContainer>
         </>

@@ -1,0 +1,12 @@
+.link-item {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  margin: 20px;
+}
+@media screen and (min-width: 576px) {
+  .link-item {
+    width: 25%;
+  }
+}
