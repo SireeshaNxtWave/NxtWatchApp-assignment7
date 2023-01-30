@@ -45,7 +45,7 @@ const Header = props => (
         <NavBar>
           <Link to="/">
             <LogoImg
-              atl="website logo"
+              alt="website logo"
               src={
                 activeTheme === 'light'
                   ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'

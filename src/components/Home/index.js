@@ -164,7 +164,7 @@ class Home extends Component {
           }
 
           return (
-            <HomeBgContainer mode={activeTheme} data-testid="Home">
+            <HomeBgContainer mode={activeTheme} data-testid="home">
               <Header />
               <VideosListContainer>
                 <SideBarContainer>
